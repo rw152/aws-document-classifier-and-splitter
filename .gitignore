@@ -2,3 +2,5 @@
 .aws-sam/
 .python-version
 samconfig.toml
+workflow3_local_output*
+workflow3_local_temp*

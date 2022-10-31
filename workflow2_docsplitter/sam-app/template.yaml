@@ -40,7 +40,10 @@ Resources:
     Properties:
       SecurityGroups:
         - !GetAtt SecurityGroup.GroupId
-      Subnets: !GetAtt GetALBInfoFunctionInvoke.Subnets
+      #Subnets: !GetAtt GetALBInfoFunctionInvoke.Subnets
+      Subnets:
+        - subnet-990d05ed
+        - subnet-7b356053
       Type: application
 
   Listener:

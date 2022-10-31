@@ -89,15 +89,27 @@ def split_input_pdf_by_class(input_pdf_path, temp_dir_path, endpoint_arn, _id):
     for i, image_path in enumerate(image_paths):
         textract_response = call_textract_on_image(textract, image_path)
         raw_text = get_lines_string(textract_json=textract_response)
-        comprehend_response = call_comprehend(raw_text, comprehend, endpoint_arn)
-        _class = comprehend_response['Classes'][0]['Name']
-        add_page_to_class(i, _class, pages_by_class)
+        _class = 'other'
+        try:
+            if raw_text != '':
+                comprehend_response = call_comprehend(raw_text, comprehend, endpoint_arn)
+                _class = comprehend_response['Classes'][0]['Name']
+                add_page_to_class(i, _class, pages_by_class)
+        except Exception as e:
+            print(f'==== LOG EXCEPTION ====\n\n{e}')
+
+
+
 
     print("Input PDF has been split up and classified\n")
     return pages_by_class
 
+#def main(endpoint_arn, choice, input_pdf_info):
+def main():
+    endpoint_arn = 'arn:aws:comprehend:us-east-1:486871406290:document-classifier-endpoint/Classifier-20221030143002'
+    choice = 'local'
+    input_pdf_info = f'Z:/GitHub/PLANELOGIX/aws-document-classifier-and-splitter/workflow3_local/01_Aircraft_Maintenance_Log_Binder.pdf'
 
-def main(endpoint_arn, choice, input_pdf_info):
     root_path = os.path.dirname(os.path.abspath(__file__))
     _id = datetime.now().strftime("%Y%m%d%H%M%S")
     temp_dir_name = f"workflow2_temp_documents-{_id}"
@@ -126,14 +138,15 @@ def main(endpoint_arn, choice, input_pdf_info):
     print("Multi-class PDFs have been created in the output folder, " + output_dir_path)
 
 
-print("Welcome to the local document splitter!")
-endpoint_arn = input("Please enter the ARN of the Comprehend classification endpoint: ")
+#print("Welcome to the local document splitter!")
+#endpoint_arn = input("Please enter the ARN of the Comprehend classification endpoint: ")
 
-print("Would you like to split a local file or a file stored in S3?")
-choice = input("Please enter 'local' or 's3': ")
-if choice == 'local':
-    input_pdf_info = input("Please enter the absolute local file path of the input PDF: ")
-elif choice == 's3':
-    input_pdf_info = input("Please enter the S3 URI of the input PDF: ")
+#print("Would you like to split a local file or a file stored in S3?")
+#choice = input("Please enter 'local' or 's3': ")
+#if choice == 'local':
+    #input_pdf_info = input("Please enter the absolute local file path of the input PDF: ")
+#elif choice == 's3':
+    #input_pdf_info = input("Please enter the S3 URI of the input PDF: ")
 
-main(endpoint_arn, choice, input_pdf_info)
+#main(endpoint_arn, choice, input_pdf_info)
+main()
