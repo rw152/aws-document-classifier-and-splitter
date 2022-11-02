@@ -106,9 +106,10 @@ def split_input_pdf_by_class(input_pdf_path, temp_dir_path, endpoint_arn, _id):
 
 #def main(endpoint_arn, choice, input_pdf_info):
 def main():
-    endpoint_arn = 'arn:aws:comprehend:us-east-1:486871406290:document-classifier-endpoint/Classifier-20221030143002'
+    #endpoint_arn = 'arn:aws:comprehend:us-east-1:486871406290:document-classifier-endpoint/Classifier-20221030143002'
+    endpoint_arn = 'arn:aws:comprehend:us-east-1:486871406290:document-classifier-endpoint/Classifier-20221101192654'
     choice = 'local'
-    input_pdf_info = f'Z:/GitHub/PLANELOGIX/aws-document-classifier-and-splitter/workflow3_local/01_Aircraft_Maintenance_Log_Binder.pdf'
+    input_pdf_info = f'Z:/GitHub/PLANELOGIX/aws-document-classifier-and-splitter/workflow3_local/test_input/01_Aircraft_Maintenance_Log_Binder.pdf'
 
     root_path = os.path.dirname(os.path.abspath(__file__))
     _id = datetime.now().strftime("%Y%m%d%H%M%S")

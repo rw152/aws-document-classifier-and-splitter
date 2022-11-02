@@ -5,7 +5,7 @@ import boto3
 # sometimes we get down into 12 or so and... oh... as i'm typing this i wonder if we're being throttled by textract
 # anyways, if it hangs, you may want to delete the remaining rows that don't have a class assigned to it to get the function to complete
 dynamodb_resource = boto3.resource('dynamodb')
-table = dynamodb_resource.Table(f'DatasetCSVTable_20221101021618_logix-docsplitter-training_')
+table = dynamodb_resource.Table(f'DatasetCSVTable_20221101192654_logix-docsplitter-training_')
 
 scan_kwargs = {
     'Select': 'COUNT',
@@ -21,6 +21,7 @@ while not done:
         scan_kwargs['ExclusiveStartKey'] = start_key
     response = table.scan(**scan_kwargs)
     rows_not_filled += response['Count']
+    #print(f"unclassed: {response['LastEvaluatedKey']['objectKey']}\n")
     start_key = response.get('LastEvaluatedKey', None)
     done = start_key is None
 
